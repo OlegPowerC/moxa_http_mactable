@@ -27,6 +27,7 @@ func main(){
 	var TestMoxa = moxa.MoxaData{*switchaddress,*username,*passwd,"","","","","",mmethod,""}
 	mstatus := moxa.Getmoxadata(&TestMoxa)
 	if mstatus == 0 {
+		fmt.Println("Cannot connect to Moxa switch")
 		os.Exit(1)
 	}
 
@@ -40,11 +41,13 @@ func main(){
 
 	mstatus = moxa.MakeMoxaCookies(&TestMoxa)
 	if mstatus == 0 {
+		fmt.Println("Make cookie Error")
 		os.Exit(1)
 	}
 
 	mstatus = moxa.WEBGUIAuthOnMoxa(&TestMoxa)
 	if mstatus == 0{
+		fmt.Println("Authentication Error")
 		os.Exit(1)
 	}
 

@@ -180,6 +180,7 @@ func MakeMoxaCookies(SwitchStruct * MoxaData)  (int){
 
 		hexhashstring = fmt.Sprintf("%x",bshash)
 		SwitchStruct.AuthCookie = "User="+ SwitchStruct.Username +"; AccountName508=admin; Password508="+ hexhashstring +"; lasttime="+timestamp
+		return 1
 	}else{
 		fver,_ := strconv.ParseFloat(SwitchStruct.FirmwareVer,32)
 		if fver > 3.5 {
@@ -214,7 +215,7 @@ func MakeMoxaCookies(SwitchStruct * MoxaData)  (int){
 func WEBGUIAuthOnMoxa(SwitchStruct * MoxaData)  (int){
 
 	a31 := url.Values{}
-	a31.Set("account","")
+	a31.Set("account",SwitchStruct.Username)
 	a31.Set("password",SwitchStruct.UserPass)
 	a31.Set("Loginin.x","0")
 	a31.Set("Loginin.y","0")
@@ -253,18 +254,23 @@ func WEBGUIAuthOnMoxa(SwitchStruct * MoxaData)  (int){
 
 	// Set cookie
 	req.Header.Add("Cookie", SwitchStruct.AuthCookie)
-	req.Header.Add("Accept", "text/xml")
+	req.Header.Add("Accept", "text/html,application/xhtml+xml,application/xml")
+	req.Header.Add("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0")
 
 	//resp, err := client.Do(req)
 	respxml, err := client.Do(req)
 	if err != nil{
 		if debugmode == true{
-			fmt.Println(err)
+			fmt.Println("DoRequest err")
 		}
+		fmt.Println(err)
 		return 0
 	}
 	data, err := ioutil.ReadAll(respxml.Body)
 	if err != nil{
+		if debugmode == true{
+			fmt.Println("Read data err")
+		}
 		fmt.Println(err)
 		return 0
 	}

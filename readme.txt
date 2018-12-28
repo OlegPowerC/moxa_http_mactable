@@ -1,7 +1,7 @@
 We try to get a MAC address table from MOXA Switches (EDS-518/510A/E) by SNMP, but if the MAC address table is large
 And the version of SNMP is V3, MOXA would normally work.
 Also, we want to read SFP data from this switches but we can not do it using SNMP.
-It possible only by HTTP/HTTPS.
+It is only possible via HTTP/HTTPS.
 We make a simple application which retrieves MAC addresses and SFP DDM data.
 (Now tested only on EDS-518A and EDS-510A with Firmware Version 2.7 3.6 3.8).
 Additionally, this util can be used for getting the serial number and model and more info.
