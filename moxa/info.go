@@ -286,7 +286,7 @@ func WEBGUIAuthOnMoxa(SwitchStruct * MoxaData)  (int){
 	// error handle
 	if data != nil {
 		//fmt.Printf("error = %s \n", err);
-		if strings.Contains(string(data),"xml version="){
+		if strings.Contains(string(data),"xml version=") || strings.Contains(string(data),"Form DDM.xml is not defined"){
 			return 1
 		}
 	}
@@ -400,24 +400,27 @@ func MoxaDDMinfo(SwitchStruct * MoxaData)(int,[]SFPDDM){
 	respxml, err := client.Do(req)
 	if err != nil{
 		if debugmode == true{
-			fmt.Println(err)
+			fmt.Println("Error after do req", err)
 		}
 		return 0,nil
 	}
 	data, err := ioutil.ReadAll(respxml.Body)
 	if err != nil{
-		fmt.Println(err)
+		fmt.Println("Error after read data",err)
 		return 0,nil
 	}
 
 	if debugmode == true {
-		fmt.Println(respxml.Header)
+		fmt.Println("Response header:",respxml.Header)
+	}
+
+	if debugmode == true{
+		fmt.Println("Response data:",string(data))
 	}
 
 	if debugmode == true{
 		fmt.Println(string(data))
 	}
-
 	// error handle
 	if data != nil {
 		//fmt.Printf("error = %s \n", err);
